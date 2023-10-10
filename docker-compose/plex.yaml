@@ -1,0 +1,26 @@
+version: "3"
+services: 
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    healthcheck:
+      test: ["CMD-SHELL", "ls"]
+      interval: 60s
+      timeout: 5s
+      retries: 5
+    container_name: plex
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ=Europe/London
+      - PLEX_CLAIM=claim-xxxxxxxxxxxxxxxxxxxx
+    networks: 
+      - plex-network
+    volumes:
+      - /home/szymon/clouds/firstPcloud/docker/plex_config/:/config
+      - /home/szymon/clouds/firstPcloud/media/shows:/shows
+      - /home/szymon/clouds/firstPcloud/media/movies:/movies
+    restart: always
+networks:
+  plex-network:
+    external:
+      name: bezpieczna-siec
